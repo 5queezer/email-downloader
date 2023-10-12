@@ -24,3 +24,12 @@ class HashableEmailAddress(EmailAddress, DictCompatible):
         if isinstance(other, HashableEmailAddress):
             return self.email == other.email
         return False
+
+
+def email_address_to_dict(a: HashableEmailAddress, count):
+    return {
+        "Name": a.name,
+        "Email": a.email,
+        "Domain": a.domain,
+        "Count": count
+    }
