@@ -35,7 +35,7 @@ def main(host, user, password, directory, delete_contents, overwrite):
                 formatted_subject = f"{msg.subject[:40]:<40}"
 
                 pbar.set_description(f"From: {formatted_from} | Subject: {formatted_subject}")
-                unsubscribe_link = extract_unsubscribe_links(msg)
+                email_address.unsubscribe_link = extract_unsubscribe_links(msg)
 
                 if overwrite:
                     save_mail(directory, msg)
