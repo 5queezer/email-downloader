@@ -2,8 +2,8 @@ from imap_tools.message import EmailAddress
 from abc import ABC, abstractmethod
 import re
 from bs4 import BeautifulSoup
-from email import message_from_string
 from imap_tools.message import MailMessage
+
 
 class DictCompatible(ABC):
     @abstractmethod
