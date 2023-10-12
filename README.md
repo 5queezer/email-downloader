@@ -62,7 +62,3 @@ We welcome contributions to this project. If you have improvements, features, or
 ## Get in Touch
 
 If you have queries, feedback, or suggestions related to this tool, kindly open an issue on this GitHub repository, and we'll get back to you.
-
----
-
-Please ensure you replace placeholders like `<repository_url>` and `<repository_name>` with the actual details of your repository.
