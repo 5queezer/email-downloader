@@ -17,9 +17,8 @@ def clear_directory(directory: str):
 
 
 def manage_directory(directory: str, delete_contents: bool):
-    files = os.listdir(directory)
     if os.path.exists(directory) and os.listdir(directory):
-        only_emails = all(f.endswith('.eml') for f in files)
+        only_emails = all(f.endswith('.eml') for f in os.listdir(directory))
 
         if not only_emails:
             print(f"'{directory}' contains non-email files.")
