@@ -16,10 +16,30 @@ class DictCompatible(ABC):
 
 
 class HashableEmailAddress(EmailAddress, DictCompatible):
-    def __init__(self, value: EmailAddress):
+    _unsubscribe_link: str
+    _to: tuple
+
+    @property
+    def unsubscribe_link(self):
+        return self._unsubscribe_link
+
+    @unsubscribe_link.setter
+    def unsubscribe_link(self, value):
+        self._unsubscribe_link = value
+
+    @property
+    def to(self):
+        return ','.join(self._to)
+
+    @to.setter
+    def to(self, value: tuple):
+        self._to = value
+
+    def __init__(self, value: EmailAddress, to: tuple = None):
         super().__init__(value.name, value.email)
         self.domain = value.email.split('@')[-1]
-        self.unsubscribe_link = None
+        if to:
+            self.to = to
 
     def __hash__(self):
         return hash(self.email)
@@ -33,7 +53,8 @@ class HashableEmailAddress(EmailAddress, DictCompatible):
 def email_address_to_dict(a: HashableEmailAddress, count):
     return {
         "Name": a.name,
-        "Email": a.email,
+        "From": a.email,
+        "To": a.to,
         "Domain": a.domain,
         "Count": count,
         "Unsubscribe": a.unsubscribe_link

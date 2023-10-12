@@ -7,6 +7,7 @@ import click
 
 from hashable_mail import HashableEmailAddress, email_address_to_dict, extract_unsubscribe_links
 from file_operations import manage_directory, save_mail
+from caffeinate import caffeinate_function
 
 
 @click.command()
@@ -17,6 +18,7 @@ from file_operations import manage_directory, save_mail
               help='Directory to save downloaded emails.')
 @click.option('--delete-contents', default=False, help='Delete the contents in the save directory..')
 @click.option('--overwrite', default=True, help='Overwrite the files in the save directory.')
+@caffeinate_function
 def main(host, user, password, directory, delete_contents, overwrite):
     """Download emails from the specified IMAP server and save them to the given directory."""
 
@@ -28,7 +30,7 @@ def main(host, user, password, directory, delete_contents, overwrite):
         total_emails = len(mailbox.numbers())
         with tqdm(total=total_emails, dynamic_ncols=True) as pbar:
             for msg in mailbox.fetch():
-                email_address = HashableEmailAddress(msg.from_values)
+                email_address = HashableEmailAddress(msg.from_values, msg.to)
                 senders[email_address] = senders.get(email_address, 0) + 1
 
                 formatted_from = f"{msg.from_values.full[:30]:<30}"
