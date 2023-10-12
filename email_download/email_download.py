@@ -5,7 +5,7 @@ from tqdm import tqdm
 from imap_tools import MailBox
 import click
 
-from hashable_mail import HashableEmailAddress, email_address_to_dict
+from hashable_mail import HashableEmailAddress, email_address_to_dict, extract_unsubscribe_links
 from file_operations import manage_directory, save_mail
 
 
@@ -35,6 +35,7 @@ def main(host, user, password, directory, delete_contents, overwrite):
                 formatted_subject = f"{msg.subject[:40]:<40}"
 
                 pbar.set_description(f"From: {formatted_from} | Subject: {formatted_subject}")
+                links = extract_unsubscribe_links(msg.obj.as_string())
 
                 if overwrite:
                     save_mail(directory, msg)

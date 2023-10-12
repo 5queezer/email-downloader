@@ -1,3 +1,4 @@
-imap-tools
+imap-tools==1.4.0
 tqdm
 click
+beautifulsoup4
