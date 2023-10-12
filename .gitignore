@@ -2,4 +2,4 @@ saved_emails/
 build/
 *.egg-info/
 
-email_addresses.csv
+*.csv

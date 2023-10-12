@@ -14,13 +14,17 @@ from caffeinate import caffeinate_function
 @click.option('--host', prompt='IMAP Host', help='The IMAP server host.')
 @click.option('--user', prompt='Username', help='The IMAP server username/email.')
 @click.option('--password', prompt='Password', hide_input=True, help='The IMAP server password.')
-@click.option('--directory', default="saved_emails", prompt='Save Directory',
-              help='Directory to save downloaded emails.')
+@click.option('--directory', default='DEFAULT', prompt='Save Directory', required=False,
+              show_default='(Same as host)',
+              help='Directory to save downloaded emails. By default, it is the same as the host.')
 @click.option('--delete-contents', default=False, help='Delete the contents in the save directory..')
 @click.option('--overwrite', default=True, help='Overwrite the files in the save directory.')
 @caffeinate_function
 def main(host, user, password, directory, delete_contents, overwrite):
     """Download emails from the specified IMAP server and save them to the given directory."""
+
+    if directory is None or directory == 'DEFAULT':
+        directory = user + "@" + host
 
     manage_directory(directory, delete_contents)
 
@@ -44,7 +48,7 @@ def main(host, user, password, directory, delete_contents, overwrite):
 
                 pbar.update(1)
 
-    with open('email_addresses.csv', 'w', newline='') as file:
+    with open(f'{user}@{host}.csv', 'w', newline='') as file:
         # Obtain headers dynamically
         sample_key = next(iter(senders), None)  # Get the first key from the senders dictionary
         headers = list(email_address_to_dict(sample_key, 0).keys()) if sample_key else []

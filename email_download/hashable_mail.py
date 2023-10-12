@@ -20,26 +20,28 @@ class HashableEmailAddress(EmailAddress, DictCompatible):
     _to: tuple
 
     @property
-    def unsubscribe_link(self):
+    def unsubscribe_link(self) -> str:
         return self._unsubscribe_link
 
     @unsubscribe_link.setter
-    def unsubscribe_link(self, value):
+    def unsubscribe_link(self, value: str):
         self._unsubscribe_link = value
 
     @property
-    def to(self):
-        return ','.join(self._to)
+    def to(self) -> str:
+        return ','.join(self._to) if self._to else ''
 
     @to.setter
-    def to(self, value: tuple):
-        self._to = value
+    def to(self, value: tuple | str):
+        if isinstance(value, str):
+            self._to = tuple(value)
+        else:
+            self._to = value
 
     def __init__(self, value: EmailAddress, to: tuple = None):
         super().__init__(value.name, value.email)
         self.domain = value.email.split('@')[-1]
-        if to:
-            self.to = to
+        self.to = to
 
     def __hash__(self):
         return hash(self.email)
